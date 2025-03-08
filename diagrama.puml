@@ -1,0 +1,125 @@
+@startuml Diagrama
+
+
+class DonkeyKong{
+    - TamborAceite: bolaFuego
+}
+class Barril{
+    - BolaFuego: quitarVida
+}
+class Lady
+class Mario{
+    - Vida: tresOportunidad
+}
+class Escalera
+class BolaFuego
+class Tarta
+class GatoHidraulico
+class Fuego
+class Martillo
+class Sombrero
+class Bolso
+class Sombrilla
+class Nivel{
+    - Plataforma: plataformaLadeada
+}
+class Plataforma{
+    - Fuego: obstaculo
+    - Escalera: arriba
+}
+class Vida
+class PuntoBonus{
+    + Aumentar()
+    + Sumar() = Puntaje
+
+}
+
+class Salto
+class Lanzamiento
+class Rescate
+class Puntaje
+class VidaExtra
+class TamborAceite{
+    - BolaFuego: quitarVida
+}
+class Juego{
+    - Nivel: masDificultad
+}
+class Jugador {
+    + Oprimir()
+    + Moverse(Direccion)
+}
+class Obstaculo{
+    + Atacar()
+    + Quitar(Vida)
+}
+class Arriba
+class Izquierda
+class Derecha
+class Direccion
+
+
+DonkeyKong "1" *-- "*" TamborAceite 
+DonkeyKong "1" o-- "*" Lanzamiento 
+DonkeyKong "1" o-- "*" Tarta
+DonkeyKong "1" o-- "*" Barril
+DonkeyKong "1" o-- "*" GatoHidraulico
+DonkeyKong "1" o-- "*" BolaFuego
+DonkeyKong -|> Obstaculo
+
+
+
+Mario o-- "1" Rescate
+Mario "1" o-- "*" Salto 
+Mario o--  "1" Martillo 
+Mario o-- "*" PuntoBonus 
+Mario *-- "3" Vida 
+Mario "1"  o-- "*" VidaExtra
+Mario o-- "*" Puntaje
+Mario o-- Plataforma
+Mario o-- Escalera
+
+Rescate "1" o-- "1" Lady 
+
+Lady o-- Mario
+
+Barril *-- "*" BolaFuego 
+Barril -|> Obstaculo
+
+Fuego  -|> Obstaculo 
+
+
+BolaFuego "*" o-- "*" Plataforma 
+BolaFuego -|> Obstaculo
+
+Tarta "*" o-- "*" Plataforma 
+Tarta -|> Obstaculo
+
+GatoHidraulico "*" o-- "*" Plataforma 
+GatoHidraulico -|> Obstaculo
+
+Plataforma "*" *-- "*" Escalera
+Plataforma "*" *-- "*" Fuego   
+
+Nivel "1" *-- "*" Plataforma 
+
+Puntaje o-- "*" PuntoBonus
+
+
+Juego *-- "4" Nivel
+
+TamborAceite *-- "*" BolaFuego 
+
+Sombrero  "1" -|> "*" PuntoBonus
+Sombrilla  "1" -|> "*" PuntoBonus 
+Bolso "1" -|> "*"  PuntoBonus
+
+Izquierda -|> Direccion
+Derecha -|> Direccion
+Arriba  -|> Direccion
+
+Jugador -|> Mario
+Jugador "1" o-- "3" Direccion
+
+
+@enduml
