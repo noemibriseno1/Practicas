@@ -13,6 +13,10 @@ public:
         otro = true;
     }
 
+    void Ejecutar(){
+        cout<<"Ejecutando Chorizo"<<endl;
+    }
+
 
 
 
@@ -107,7 +111,14 @@ int main(int argc, char const*argv[])
     //C++
     Chorizo* punteroCXX = new Chorizo();
     delete punteroCXX;
-    
+
+    //Indireccion vs operador ->
+    //Indireccion
+    (*punteroCXX).Inicializar();
+    //Operador ->
+    punteroCXX->Inicializar();
+
+
     cout<<"--------------------------------------------------------"<<endl;
 
 
