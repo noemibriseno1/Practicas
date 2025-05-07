@@ -4,26 +4,39 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include <set>
 
 using namespace std;
+
+enum Columnas{
+    INDICE,
+    NOMBRE,
+    NUMERO,
+    TIPO,
+    ETAPA,
+    ANTECESOR,
+    ANTECESOR_NO
+
+};
 
 enum TipoPokemon{
     FUEGO,
     AGUA,
-    PLANTA, 
+    PLANTA,
+    VENENO, 
     ELECTRICIDAD
 };
 
 class Pokemon{
 private:
     string nombre;
-    list<TipoPokemon> tipos;
+    set<TipoPokemon> tipos;
     int nivel;
 
 public:
-    Pokemon(string nombre, list<TipoPokemon> tipos, int nivel){
+    Pokemon(string nombre, set<TipoPokemon> tipos, int nivel){
         this->nombre = nombre;
-        this->tipos =tipos;
+        this->tipos = tipos;
         this->nivel = nivel;
 
     }
@@ -51,8 +64,8 @@ int main(int argc, char const *argv[])
     vEnteros.push_back(1);
     vEnteros.push_back(9);
 
-    vector<Pokemon> pokedex;
-    pokedex.push_back(Pokemon("Bulbasaur",TipoPokemon::PLANTA,1));
+    
+    
 
     fstream pokeCSV("assets/pokedex.csv");
     if(!pokeCSV){
@@ -60,27 +73,55 @@ int main(int argc, char const *argv[])
         return EXIT_FAILURE;
     }
 
+    //Cargar pokemones desde el archivo
     string linea;
+    vector<Pokemon> pokedex;
+    pokedex.push_back(Pokemon("Misigno",{TipoPokemon::VENENO},999));
     while(getline(pokeCSV,linea)){
         cout<< linea <<endl;
 
+
+        //Convertir a un stream de cadena
         stringstream ss(linea);
+
+        //Crear lista temporal para las columnas
         string valor;
-        vector<string> fila;
+
+        //Extraer un valor en guardar en la lista
+        vector<string> listaColumnas;
         while(getline(ss,valor, ',')){
-            fila.push_back(valor);
+            listaColumnas.push_back(valor);
             
         }
-         //Crear el pokemon
-         Pokemon p(fila.at(1),TipoPokemon::AGUA,1);
+        
+        
+        try
+        {
+            //Crear el pokemon
+         Pokemon p(
+            listaColumnas.at(Columnas::NOMBRE),
+            { TipoPokemon::AGUA },
+            stoi(listaColumnas.at(Columnas::ETAPA))
+        );
+            //Agregar el pokemon al pokedex
+        pokedex.push_back(p);
 
-         //Agregar el pokemon al pokedex
-         pokedex.push_back(p);
+         
 
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+         
+
+   
         
     }
     
-    cout<<"Pokemons cargados al pokedex ="<<pokedex.size()<<endl;
+    cout<<"Pokemons cargados al pokedex = "<<pokedex.size()<<endl;
+
+    cout<<"El pokemon 5 es: "<<pokedex.at(5).GetNombre()<<endl;
 
 
 
